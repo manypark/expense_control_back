@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  passwordHash String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  accounts     Account[]
+  cards        CreditCard[]
+  expenses     Expense[]
+}
+
+model Account {
+  id        String   @id @default(uuid())
+  code      String
+  name      String
+  balance   Float
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, code])
+  @@index([userId])
+}
+
+model CreditCard {
+  id          String    @id @default(uuid())
+  alias       String
+  bank        String
+  last4       String
+  closingDay  Int
+  dueDay      Int
+  creditLimit Float
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expenses    Expense[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Expense {
+  id             String      @id @default(uuid())
+  title          String
+  description    String
+  category       String
+  amount         Float
+  incurredAt     DateTime
+  receiptUrl     String?
+  statementYear  Int
+  statementMonth Int
+  creditCardId   String?
+  creditCard     CreditCard? @relation(fields: [creditCardId], references: [id], onDelete: SetNull)
+  userId         String
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([creditCardId])
+  @@index([statementYear, statementMonth])
+}

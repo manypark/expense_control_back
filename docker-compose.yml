@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: expense-control-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: expense_control
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: expense-control-api
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/expense_control?schema=public
+    ports:
+      - '3000:3000'
+
+volumes:
+  pg_data:
