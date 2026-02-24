@@ -1,5 +1,6 @@
 # compiled output
 /dist
+/cert
 /node_modules
 /build
 /src/config
