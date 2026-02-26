@@ -1,0 +1,1 @@
+ALTER TABLE "Expense" DROP COLUMN IF EXISTS "receiptUrl";

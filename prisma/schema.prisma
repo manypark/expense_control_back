@@ -57,7 +57,6 @@ model Expense {
   category       String
   amount         Float
   incurredAt     DateTime
-  receiptUrl     String?
   statementYear  Int
   statementMonth Int
   creditCardId   String?

@@ -31,11 +31,6 @@ export class CreateExpenseDto {
   @IsDateString()
   incurredAt!: string;
 
-  @ApiProperty({ required: false, example: 'https://storage.local/ticket.jpg' })
-  @IsOptional()
-  @IsString()
-  receiptUrl?: string;
-
   @ApiProperty({ example: 2026 })
   @IsInt()
   statementYear!: number;
