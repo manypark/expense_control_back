@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -36,6 +37,15 @@ export class AccountsController {
 
   @Patch(':id')
   update(
+    @CurrentUser() user: JwtPayload,
+    @Param('id') id: string,
+    @Body() dto: UpdateAccountDto,
+  ) {
+    return this.accountsService.update(user.sub, id, dto);
+  }
+
+  @Put(':id')
+  replace(
     @CurrentUser() user: JwtPayload,
     @Param('id') id: string,
     @Body() dto: UpdateAccountDto,
