@@ -17,6 +17,7 @@ model User {
   accounts     Account[]
   cards        CreditCard[]
   expenses     Expense[]
+  recurringServices RecurringService[]
 }
 
 model Account {
@@ -69,4 +70,18 @@ model Expense {
   @@index([userId])
   @@index([creditCardId])
   @@index([statementYear, statementMonth])
+}
+
+model RecurringService {
+  id        String   @id @default(uuid())
+  title     String
+  dueDate   DateTime
+  isPaid    Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([dueDate])
 }

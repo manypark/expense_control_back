@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AccountsModule } from './accounts/accounts.module';
 import { AuthModule } from './auth/auth.module';
+import { BillsModule } from './bills/bills.module';
 import { CardsModule } from './cards/cards.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -14,6 +15,7 @@ import { UsersModule } from './users/users.module';
     PrismaModule,
     UsersModule,
     AuthModule,
+    BillsModule,
     AccountsModule,
     CardsModule,
     ExpensesModule,
