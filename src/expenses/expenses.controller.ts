@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -15,6 +16,7 @@ import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import type { JwtPayload } from '../common/interfaces/jwt-payload.interface';
 import { CreateExpenseDto } from './dto/create-expense.dto';
+import { FindExpensesQueryDto } from './dto/find-expenses-query.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { ExpensesService } from './expenses.service';
 
@@ -26,8 +28,11 @@ export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 
   @Get()
-  findAll(@CurrentUser() user: JwtPayload) {
-    return this.expensesService.findAll(user.sub);
+  findAll(
+    @CurrentUser() user: JwtPayload,
+    @Query() query: FindExpensesQueryDto,
+  ) {
+    return this.expensesService.findAll(user.sub, query);
   }
 
   @Post()
