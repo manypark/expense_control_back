@@ -15,6 +15,10 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    origin: process.env.CORS_ORIGINS?.split(',') || [],
+  });
+
   const config = new DocumentBuilder()
     .setTitle('Expense Control API')
     .setDescription('Backend API para control de gastos')
