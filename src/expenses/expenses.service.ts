@@ -29,6 +29,19 @@ export class ExpensesService {
         orderBy: { incurredAt: 'desc' },
         take: limit,
         skip: offset,
+        include: {
+          creditCard: {
+            select: {
+              id : true,
+              alias : true,
+              bank : true,
+              last4 : true,
+              closingDay : true,
+              dueDay : true,
+              creditLimit: true,
+            }
+          }
+        }
       }),
       this.prisma.expense.count({ where }),
     ]);
