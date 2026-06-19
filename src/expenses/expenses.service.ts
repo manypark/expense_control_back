@@ -17,6 +17,19 @@ export class ExpensesService {
     if (!hasPagination) {
       return this.prisma.expense.findMany({
         where,
+        include: {
+          creditCard: {
+            select: {
+              id : true,
+              alias : true,
+              bank : true,
+              last4 : true,
+              closingDay : true,
+              dueDay : true,
+              creditLimit: true,
+            }
+          }
+        },
         orderBy: { incurredAt: 'desc' },
       });
     }
